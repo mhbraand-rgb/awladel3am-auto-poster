@@ -1,21 +1,29 @@
 import asyncio
 
-from telegram.client import client
+from app.telegram.client import client
 from config.settings import PHONE_NUMBER
 
 async def main():
+
+    print("🚀 بدء تشغيل AwladEl3am Auto Poster")
 
     await client.start(phone=PHONE_NUMBER)
 
     me = await client.get_me()
 
-    print("=" * 50)
-    print("تم تسجيل الدخول بنجاح")
-    print("=" * 50)
+    print(f"✅ تم تسجيل الدخول: {me.first_name}")
+    print(f"🆔 {me.id}")
 
-    print(me.first_name)
-    print(me.id)
+    dialogs = await client.get_dialogs()
 
-    await client.run_until_disconnected()
+    print("\n📋 القنوات الموجودة:\n")
+
+    for dialog in dialogs:
+        if dialog.is_channel:
+            print(dialog.name)
+
+    print("\n✅ الاتصال ناجح")
+
+    await client.disconnect()
 
 asyncio.run(main())
